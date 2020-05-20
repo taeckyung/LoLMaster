@@ -4,7 +4,7 @@ LolMaster is a tool to collect rank game data from League of Legends.
 
 ## Requirements
 
-Python version >= 3.5
+Python version 3.6 or higher
 
 ```pip install pandas schedule requests```
 
@@ -24,4 +24,7 @@ config.set_key('RGAPI-...')
 config.set_region('kr')
 ```
 
-##
+## Collecting high elo data
+```p
+python collect_high_elo_match.py -s SUMMONER_DIR -m MATCH_DIR
+```
