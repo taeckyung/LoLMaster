@@ -23,6 +23,7 @@ def set_key(key: str):
 
 
 def get_key():
+	config.read(fileName)
 	if config.has_option('main', 'key'):
 		return config.get('main', 'key')
 	else:
@@ -36,6 +37,7 @@ def set_region(region: str):
 
 
 def get_region():
+	config.read(fileName)
 	if config.has_option('main', 'region'):
 		return config.get('main', 'region')
 	else:

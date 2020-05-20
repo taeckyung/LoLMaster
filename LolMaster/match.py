@@ -29,7 +29,7 @@ def get_list_by_account(account_ids: Union[str, Series],
 		res = url.request()
 
 		if res is not None:
-			df.append(json_normalize(res['matches']))
+			df = df.append(json_normalize(res['matches']))
 
 	return df
 
@@ -44,5 +44,7 @@ def get_match_by_match_id(match_ids: Union[str, Series]):
 	for match_id in match_ids:
 		url = RiotURL('/lol/match/v4/matches/' + format(match_id))
 		res = url.request()
-		df.append(json_normalize(res))
+
+		if res is not None:
+			df = df.append(json_normalize(res))
 	return df

@@ -2,20 +2,21 @@ from pandas import json_normalize, DataFrame
 from LolMaster.api import RiotURL
 
 
-def get_league_grandmaster(queue: str = 'RANKED_SOLO_5x5'):
-	return high_elo_wrapper("/lol/league/v4/grandmasterleagues/by-queue/%s", queue)
+def get_summoner_master(queue: str = 'RANKED_SOLO_5x5') -> DataFrame:
+	return high_elo_wrapper("master", queue)
 
 
-def get_league_master(queue: str = 'RANKED_SOLO_5x5'):
-	return high_elo_wrapper("/lol/league/v4/masterleagues/by-queue/%s", queue)
+def get_summoner_grandmaster(queue: str = 'RANKED_SOLO_5x5') -> DataFrame:
+	return high_elo_wrapper("grandmaster", queue)
 
 
-def get_league_challenger(queue: str = 'RANKED_SOLO_5x5'):
-	return high_elo_wrapper("/lol/league/v4/challengerleagues/by-queue/%s", queue)
+def get_summoner_challenger(queue: str = 'RANKED_SOLO_5x5') -> DataFrame:
+	return high_elo_wrapper("challenger", queue)
 
 
-def high_elo_wrapper(url: str, queue: str):
-	res = RiotURL(url % queue).request()
+def high_elo_wrapper(tier: str, queue: str) -> DataFrame:
+	url = "/lol/league/v4/%sleagues/by-queue/%s" % (tier, queue)
+	res = RiotURL(url).request()
 	if res is None:
 		return DataFrame()
 	df = json_normalize(res['entries'])

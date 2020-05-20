@@ -1,6 +1,6 @@
-from LolMaster.error import KeyNotValidError, MaxRetryError, NotReachableError
+from LolMaster.error import KeyNotValidError, NotReachableError
 from LolMaster import config
-from typing import Iterable, Union
+from typing import Iterable, Union, Dict
 import requests
 import logging
 import time
@@ -11,19 +11,23 @@ class RiotURL:
 		self.url = url
 
 	@staticmethod
-	def absolute_url(url: str):
+	def absolute_url(url: str) -> str:
 		region = config.get_region()
 		base = "https://%s.api.riotgames.com" % region
 		return base + url
 
-	def add_query(self, query_name: str, queries: Union[str, Iterable[str]]):
+	def add_query(self, query_name: str, queries: Union[str, Iterable[str]]) -> 'RiotURL':
 		if type(queries) == str:
 			queries = [queries]
 		for query in queries:
-			self.url += "?%s=%s" % (query_name, query)
+			if '?' in self.url:
+				self.url += '&'
+			else:
+				self.url += '?'
+			self.url += '%s=%s' % (query_name, query)
 		return self
 
-	def request(self, max_retry: int = 5):
+	def request(self, max_retry: int = 5) -> Union[None, Dict]:
 		if self.url[0] == '/':
 			self.url = RiotURL.absolute_url(self.url)
 		self.add_query('api_key', config.get_key())
@@ -35,16 +39,18 @@ class RiotURL:
 				return r.json()
 			elif r.status_code == 404:
 				logging.warning("Data not found: %s" % self.url)
+				return None
 			elif r.status_code == 429:
 				backoff = int(r.headers['Retry-After'])
 				logging.info("Backoff for %d seconds." % backoff)
 				time.sleep(backoff)
 				continue
 			else:
+				logging.error(self.url)
 				logging.error(r.json()['status'])
 
 				if r.status_code == 401:
-					logging.error("API token is not set.")
+					logging.error("Wrong url or API token not set.")
 					raise NotReachableError
 				elif r.status_code == 403:
 					logging.error("API token is not valid.")
@@ -54,4 +60,4 @@ class RiotURL:
 					max_retry -= 1
 					continue
 
-		raise MaxRetryError
+		return None
