@@ -37,15 +37,12 @@ def job():
 		os.mkdir(base)
 
 	high_elo_users = pd.concat([master_users, grandmaster_users, challenger_users])
-	print(high_elo_users)
 
 	begin = int(1000 * yesterday.replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
 	end = int(1000 * yesterday.replace(hour=23, minute=59, second=59, microsecond=9999).timestamp())
 
 	match_ids = match.get_list_by_account(high_elo_users['accountId'], begin_time=begin, end_time=end)
-	print(match_ids)
 	matches = match.get_match_by_match_id(match_ids['gameId'])
-	print(matches)
 	matches.to_csv(os.path.join(base, 'over_master.csv'))
 
 
