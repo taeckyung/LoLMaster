@@ -41,19 +41,25 @@ class RiotURL:
 				logging.warning("Data not found: %s" % self.url)
 				return None
 			elif r.status_code == 429:
-				backoff = int(r.headers['Retry-After'])
+				backoff = r.headers.get('Retry-After')
+				if backoff is None:
+					logging.warning("Code 429 with no Retry-After.")
+					logging.warning(r.headers)
+					logging.warning(r.content.json())
+					backoff = 30
+				backoff = int(backoff)
 				logging.info("Backoff for %d seconds." % backoff)
 				time.sleep(backoff)
 				continue
 			else:
 				logging.error(self.url)
-				logging.error(r.json()['status'])
+				logging.error(r.json().get('status'))
 
 				if r.status_code == 401:
-					logging.error("Wrong url or API token not set.")
+					logging.error("API token is not included.")
 					raise NotReachableError
 				elif r.status_code == 403:
-					logging.error("API token is not valid.")
+					logging.error("API token or URL is not valid.")
 					raise KeyNotValidError
 				else:
 					logging.error("Unknown error of code %d. Retrying." % r.status_code)
