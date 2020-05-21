@@ -19,13 +19,13 @@ def get_list_by_account(account_ids: Union[str, Series],
 	df = DataFrame()
 	for account_id in account_ids:
 		url = RiotURL('/lol/match/v4/matchlists/by-account/' + format(account_id))
-		url.add_query('champion', champion_ids) \
-			.add_query('queue', queue_ids) \
-			.add_query('season', seasons)
+		url.set_query('champion', champion_ids) \
+			.set_query('queue', queue_ids) \
+			.set_query('season', seasons)
 		if begin_time is not None:
-			url.add_query('beginTime', str(begin_time))
+			url.set_query('beginTime', str(begin_time))
 		if end_time is not None:
-			url.add_query('endTime', str(end_time))
+			url.set_query('endTime', str(end_time))
 		res = url.request()
 
 		if res is not None:
