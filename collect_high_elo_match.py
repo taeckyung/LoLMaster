@@ -1,5 +1,4 @@
 from LolMaster import league, summoner, match
-from pandas import DataFrame
 import pandas as pd
 import schedule
 import datetime
@@ -10,26 +9,32 @@ import os
 
 summoner_dir = './'
 match_dir = './'
+skip_summoner = False
 
 
 def job():
 	yesterday = datetime.datetime.now() - datetime.timedelta(1)
 	base = os.path.join(summoner_dir, yesterday.strftime("%Y%m%d"))
 
-	if not os.path.exists(base):
-		os.mkdir(base)
+	if not skip_summoner:
+		if not os.path.exists(base):
+			os.mkdir(base)
 
-	challenger: DataFrame = league.get_summoner_challenger()
-	challenger_users: DataFrame = summoner.get_summoner_by_summoner_id(challenger['summonerId'])
-	challenger_users.to_csv(os.path.join(base, 'challenger.csv'))
+		challenger = league.get_summoner_challenger()
+		challenger_users = summoner.get_summoner_by_summoner_id(challenger['summonerId'])
+		challenger_users.to_csv(os.path.join(base, 'challenger.csv'))
 
-	grandmaster: DataFrame = league.get_summoner_grandmaster()
-	grandmaster_users: DataFrame = summoner.get_summoner_by_summoner_id(grandmaster['summonerId'])
-	grandmaster_users.to_csv(os.path.join(base, 'grandmaster.csv'))
+		grandmaster = league.get_summoner_grandmaster()
+		grandmaster_users = summoner.get_summoner_by_summoner_id(grandmaster['summonerId'])
+		grandmaster_users.to_csv(os.path.join(base, 'grandmaster.csv'))
 
-	master: DataFrame = league.get_summoner_master()
-	master_users: DataFrame = summoner.get_summoner_by_summoner_id(master['summonerId'])
-	master_users.to_csv(os.path.join(base, 'master.csv'))
+		master = league.get_summoner_master()
+		master_users = summoner.get_summoner_by_summoner_id(master['summonerId'])
+		master_users.to_csv(os.path.join(base, 'master.csv'))
+	else:
+		challenger_users = pd.read_csv(os.path.join(base, 'challenger.csv'))
+		grandmaster_users = pd.read_csv(os.path.join(base, 'grandmaster.csv'))
+		master_users = pd.read_csv(os.path.join(base, 'master.csv'))
 
 	base = os.path.join(match_dir, yesterday.strftime("%Y%m%d"))
 
@@ -61,12 +66,16 @@ def parse_args():
 	parser.add_argument('-n', '--now', action='store_true',
 	                    help="execute only once without scheduling")
 
+	parser.add_argument('--skip_summoner', action='store_true',
+                        help="skip collecting summoner data")
+
 	return parser.parse_args()
 
 
 args = parse_args()
 summoner_dir = args.summoner_dir
 match_dir = args.match_dir
+skip_summoner = args.skip_summoner
 
 if args.now:
 	job()

@@ -1,7 +1,27 @@
 from LolMaster.error import KeyNotSetError, RegionNotSetError
-from LolMaster.base import base
 from configparser import ConfigParser
+import logging
+import sys
 import os
+
+base = os.path.expanduser('~/.lolMaster')
+
+DEBUG = True
+
+if not os.path.exists(base):
+	os.mkdir(base)
+
+logging.basicConfig(filename=os.path.join(base, 'log'), level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+if DEBUG:
+	root = logging.getLogger()
+	handler = logging.StreamHandler(sys.stdout)
+	handler.setLevel(logging.DEBUG)
+	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+	handler.setFormatter(formatter)
+	root.addHandler(handler)
+
 
 config = ConfigParser()
 fileName = os.path.join(base, 'config')

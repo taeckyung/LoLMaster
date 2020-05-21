@@ -45,7 +45,6 @@ class RiotURL:
 				if backoff is None:
 					logging.warning("Code 429 with no Retry-After.")
 					logging.warning(r.headers)
-					logging.warning(r.content.json())
 					backoff = 30
 				backoff = int(backoff)
 				logging.info("Backoff for %d seconds." % backoff)
