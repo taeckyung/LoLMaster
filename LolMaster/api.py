@@ -19,10 +19,13 @@ class RiotURL:
 		base = "https://%s.api.riotgames.com" % region
 		return base + url
 
-	def set_query(self, query_name: str, queries: Union[str, Iterable[str]]) -> 'RiotURL':
+	def set_query(self, query_name: str, queries: Union[str, Iterable]) -> 'RiotURL':
+		new_queries = []
 		if type(queries) is str:
-			queries = [queries]
-		self.queries[query_name] = queries
+			new_queries = [queries]
+		for query in queries:
+			new_queries.append(str(query))
+		self.queries[query_name] = new_queries
 		return self
 
 	def get_url_with_query(self) -> str:

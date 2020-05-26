@@ -1,11 +1,14 @@
-from typing import Union
+from typing import Union, List
 from LolMaster.api import RiotURL
 from pandas import Series, DataFrame, json_normalize
 
 
 def get_list_by_account(account_ids: Union[str, Series],
-		champion_ids=None, queue_ids=None, seasons=None,
-		begin_time=None, end_time=None):
+		champion_ids: Union[None, List[int]] = None,
+		queue_ids: Union[None, List[int]] = None,
+		seasons: Union[None, List[int]] = None,
+		begin_time: Union[None, int] = None,
+		end_time: Union[None, int] = None):
 	if champion_ids is None:
 		champion_ids = []
 	if queue_ids is None:

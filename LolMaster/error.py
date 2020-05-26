@@ -1,20 +1,24 @@
-class KeyNotSetError(Exception):
+class LolMasterException(Exception):
 	pass
 
 
-class RegionNotSetError(Exception):
+class KeyNotSetError(LolMasterException):
 	pass
 
 
-class KeyNotValidError(Exception):
+class RegionNotSetError(LolMasterException):
 	pass
 
 
-class MaxRetryError(Exception):
+class KeyNotValidError(LolMasterException):
 	pass
 
 
-class NotReachableError(Exception):
+class MaxRetryError(LolMasterException):
+	pass
+
+
+class NotReachableError(LolMasterException):
 	"""
 	You should not reach this error.
 	"""
