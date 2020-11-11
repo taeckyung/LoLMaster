@@ -1,4 +1,4 @@
-from LolMaster import league, summoner, match
+from LoLMaster import league, summoner, match
 import pandas as pd
 import schedule
 import datetime

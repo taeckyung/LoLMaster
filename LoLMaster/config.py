@@ -1,4 +1,4 @@
-from LolMaster.error import KeyNotSetError, RegionNotSetError
+from LoLMaster.error import KeyNotSetError, RegionNotSetError
 from configparser import ConfigParser
 import logging
 import sys

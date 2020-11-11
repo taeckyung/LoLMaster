@@ -1,20 +1,17 @@
 from typing import Union, List
-from LolMaster.api import RiotURL
+from LoLMaster.api import RiotURL
 from pandas import Series, DataFrame, json_normalize
 
 
 def get_list_by_account(account_ids: Union[str, Series],
 		champion_ids: Union[None, List[int]] = None,
 		queue_ids: Union[None, List[int]] = None,
-		seasons: Union[None, List[int]] = None,
 		begin_time: Union[None, int] = None,
 		end_time: Union[None, int] = None):
 	if champion_ids is None:
 		champion_ids = []
 	if queue_ids is None:
 		queue_ids = []
-	if seasons is None:
-		seasons = []
 
 	if type(account_ids) == str:
 		account_ids = Series(account_ids)
@@ -23,8 +20,7 @@ def get_list_by_account(account_ids: Union[str, Series],
 	for account_id in account_ids:
 		url = RiotURL('/lol/match/v4/matchlists/by-account/' + format(account_id))
 		url.set_query('champion', champion_ids) \
-			.set_query('queue', queue_ids) \
-			.set_query('season', seasons)
+			.set_query('queue', queue_ids)
 		if begin_time is not None:
 			url.set_query('beginTime', str(begin_time))
 		if end_time is not None:

@@ -1,6 +1,6 @@
-# LolMaster
+# LoLMaster
 
-LolMaster is a tool to collect rank game data from League of Legends.
+LoLMaster is a tool to collect rank game data from League of Legends.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ You should initialize your API key and the target region by:
 You can also set API key and region by importing ```LolMaster.config```.
 
 ```Python
-from LolMaster import config
+from LoLMaster import config
 config.set_key('RGAPI-...')
 config.set_region('kr')
 ```
