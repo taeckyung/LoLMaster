@@ -1,5 +1,5 @@
 from pandas import json_normalize, DataFrame
-from LoLMaster.api import RiotURL
+from api.riot_api import RiotURL
 
 
 def high_elo_wrapper(tier: str, queue: str) -> DataFrame:

@@ -1,5 +1,5 @@
 from typing import Union
-from LoLMaster.api import RiotURL
+from api.riot_api import RiotURL
 from pandas import Series, DataFrame, json_normalize
 
 

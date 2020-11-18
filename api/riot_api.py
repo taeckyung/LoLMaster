@@ -1,5 +1,5 @@
-from LoLMaster.error import KeyNotValidError, NotReachableError
-from LoLMaster import config
+from api.error import KeyNotValidError, NotReachableError
+from api import config
 from typing import Iterable, Union, Dict
 import requests
 import logging

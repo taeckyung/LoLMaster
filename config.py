@@ -1,4 +1,4 @@
-from LoLMaster import config
+from api import config
 import argparse
 
 parser = argparse.ArgumentParser()

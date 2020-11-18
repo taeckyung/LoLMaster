@@ -1,1 +1,0 @@
-from LoLMaster import config
