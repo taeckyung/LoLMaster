@@ -19,7 +19,7 @@ You should initialize your API key and the target region by:
 You can also set API key and region by importing ```LolMaster.config```.
 
 ```Python
-from LoLMaster import config
+from api import config
 config.set_key('RGAPI-...')
 config.set_region('kr')
 ```
