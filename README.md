@@ -1,6 +1,6 @@
 # LoLMaster
 
-LoLMaster is a tool to collect rank game data from League of Legends.
+LoLMaster is a wrapper for Riot API.
 
 ## Requirements
 
